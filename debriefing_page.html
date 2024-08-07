@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>System Error</title>
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: monospace;
+    text-align: center;
+    padding: 20px;
+    background-color: #000080;
+    color: white;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #000080;
+}
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#progressBar {
+    width: 200px;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 10px auto;
+    overflow: hidden;
+}
+
+#progressBarFill {
+    width: 0%;
+    height: 100%;
+    background-color: #4CAF50;
+    animation: fillProgressBar 7s linear forwards;
+}
+
+@keyframes fillProgressBar {
+    to { width: 100%; }
+}
+
+#antivirusAlert {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff0000;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 11;
+    animation: flashAlert 1s linear infinite;
+}
+
+@keyframes flashAlert {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+#fileScroller { /* New style for the scrolling file list */
+    height: 600px; /* Adjust the height as needed */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+#fileScroller p {
+    animation: scrollText 15s linear infinite; /* Adjust scroll speed */
+}
+
+@keyframes scrollText {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100%); } /* Move text upwards */
+}
+</style>
+</head>
+<body>
+    <audio id="beepSound" src="https://www.zedge.net/find/ringtones/beep" preload="auto"></audio>
+
+    <div id="popup">
+        <p id="popupMessage"></p>
+        <div id="progressBar">
+            <div id="progressBarFill"></div>
+        </div>
+    </div>
+
+    <div id="antivirusAlert">
+        <strong>Warning:</strong> Virus Detected👾💻⚠️
+    </div>
+
+    <script>
+        const popup = document.getElementById('popup');
+        const popupMessage = document.getElementById('popupMessage');
+        const beepSound = document.getElementById('beepSound');
+        const antivirusAlert = document.getElementById('antivirusAlert');
+        document.body.style.cursor = 'wait'; 
+
+        const fileExtensions = ['.docx', '.xlsx', '.pdf', '.txt', '.jpg', '.png', '.zip'];
+        const fileNames = [];
+
+        for (let i = 0; i < 4000; i++) {
+            const randomPrefix = Math.random().toString(36).substring(2, 8); 
+            const randomExtension = fileExtensions[Math.floor(Math.random() * fileExtensions.length)];
+            fileNames.push(`A&N_LoanHub_${randomPrefix}${randomExtension}`);
+        }
+
+        const messages = [
+            "Encrypting Files...",
+            "Uploading to Secure Server...",
+            "Erasing Local Copies...",
+            "Activating Camera...",
+            "Transfer Complete."
+        ];
+
+        let messageIndex = 0;
+        const popupInterval = setInterval(function() {
+            if (messageIndex < messages.length) {
+                popupMessage.textContent = messages[messageIndex];
+                beepSound.play();
+                popup.style.display = 'block';
+                messageIndex++;
+
+                // Reset and start progress bar animation
+                document.getElementById('progressBarFill').style.width = '0%';
+                document.getElementById('progressBarFill').style.animation = 'fillProgressBar 2s linear forwards';
+            } else {
+                clearInterval(popupInterval);
+                showBlueScreen();
+            }
+        }, 3000);
+
+        function showBlueScreen() {
+            popup.style.display = 'none';
+            document.body.style.cursor = 'auto';
+
+            // Create scrolling file list
+            const fileScroller = document.createElement('div');
+            fileScroller.id = 'fileScroller';
+
+            const fileText = fileNames.join('\n'); // Join file names with newline
+            fileScroller.innerHTML = `<p>${fileText}</p>`;
+
+            document.body.innerHTML = `
+                <h1>A problem has been detected and Windows has been shut down to prevent damage
+                to your computer.</h1>
+                <p>If this is the first time you've seen this stop error screen,
+                restart your computer. If this screen appears again, follow these steps:</p>
+                <ul>
+                    <li>Check for viruses on your computer.</li>
+                    <li>Remove any newly installed hard drives or hard drive controllers.</li>
+                    <li>Check your hard drive to make sure it is properly configured and terminated.</li>
+                    <li>Run CHKDSK /F to check for hard drive corruption, and then restart your computer.</li>
+                </ul>
+                <p>Technical information:</p>
+                <p>*** STOP: 0x0000007B (0xF78D2524, 0xC0000034, 0x00000000, 0x00000000)</p>
+
+                <h2>Files Downloaded:</h2>
+            `;
+            document.body.appendChild(fileScroller);
+        }
+// Fullscreen on page load
+        window.onload = function() {
+            toggleFullScreen();
+
+            // Show antivirus alert after a delay
+            setTimeout(function() {
+                antivirusAlert.style.display = 'block';
+                setTimeout(function() {
+                    antivirusAlert.style.display = 'none';
+                }, 5000); // Hide after 5 seconds
+            }, 8000); // Show after 8 seconds
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } 
+        }
+    </script>
+</body>
+</html>

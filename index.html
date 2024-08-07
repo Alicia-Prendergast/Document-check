@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Data Protection Initiative</title>
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    background-color: black;
+    font-family: monospace;
+    padding: 20px;
+    color: red;
+    display: flex; /* Enable flexbox for layout */
+    flex-direction: column; /* Make elements stack vertically */
+    align-items: center; /* Center horizontally */
+}
+
+#worldClock {  /* Style the clock */
+    font-size: 48px; /* Larger font size */
+    margin-bottom: 20px;
+}
+
+#logo {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+#progressBar {
+    width: 300px;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+#progressBarFill {
+    width: 0%;
+    height: 100%;
+    background-color: #4CAF50;
+    animation: fillProgressBar 5s linear forwards;
+}
+
+@keyframes fillProgressBar {
+    to { width: 100%; }
+}
+
+#codeScroll {
+    height: 200px;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 12px; /* Match line-height to font-size */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+#codeScroll p {
+    animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+    from { transform: translateX(0); } /* Scroll horizontally */
+    to { transform: translateX(-100%); }
+}
+</style>
+</head>
+<body>
+    <div id="worldClock"></div> 
+
+    <div id="center">
+        <img id="logo" src="wolf logo.jpeg" alt="Wolf Hack">
+        <h2>You Have Been Hacked by the Wolf!!</h2>
+        <p>Downloading and encrypting company files...</p>
+        <div id="progressBar">
+            <div id="progressBarFill"></div>
+        </div>
+    </div>
+
+    <div id="codeScroll">
+        <p>1010100101001010100111010101010101001010100101011010101010100101010010101101010101010010101001010110101010101001010100101011010101010100101010010101</p> 
+    </div>
+
+    <script>
+        // Redirect after 5 seconds
+        setTimeout(function() {
+            window.location.href = "debriefing_page.html";
+        }, 5000); 
+
+        // World clock update
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('worldClock').textContent = `Current Time: ${timeString}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
